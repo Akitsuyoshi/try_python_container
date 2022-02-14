@@ -34,4 +34,22 @@ def binary_search(arr: list[int], val: int) -> Union[int, None]:
 
     return None
 
+
+print(binary_search([3, 17, 22, 80, 220], 80))
+# %%
+
+
+def bubble_sort(arr: list[int]) -> list[int]:
+    unsorted_until_idx = len(arr) - 1
+
+    while unsorted_until_idx != 0:
+        for i in range(unsorted_until_idx):
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+        unsorted_until_idx -= 1
+    return arr
+
+
+print(bubble_sort([65, 55, 1, 45, 35, 25, 15, 10]))
+
 # %%
