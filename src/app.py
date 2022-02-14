@@ -66,3 +66,25 @@ def selection_sort(arr: list[int]) -> list[int]:
             arr[i], arr[lowest_num_idx] = arr[lowest_num_idx], arr[i]
 
     return arr
+
+
+print(selection_sort([65, 55, 1, 45, 35, 25, 15, 10]))
+# %%
+
+
+def insertion_sort(arr: list[int]) -> list[int]:
+    for i in range(1, len(arr)):
+        position = i
+        temp_val = arr[i]
+
+        while position > 0 and arr[position - 1] > temp_val:
+            arr[position] = arr[position - 1]
+            position -= 1
+
+        arr[position] = temp_val
+    return arr
+
+
+print(insertion_sort([65, 55, 1, 45, 35, 25, 15, 10]))
+
+# %%
