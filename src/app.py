@@ -53,3 +53,16 @@ def bubble_sort(arr: list[int]) -> list[int]:
 print(bubble_sort([65, 55, 1, 45, 35, 25, 15, 10]))
 
 # %%
+
+
+def selection_sort(arr: list[int]) -> list[int]:
+    for i in range(len(arr)):
+        lowest_num_idx = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[lowest_num_idx]:
+                lowest_num_idx = j
+
+        if lowest_num_idx != i:
+            arr[i], arr[lowest_num_idx] = arr[lowest_num_idx], arr[i]
+
+    return arr
