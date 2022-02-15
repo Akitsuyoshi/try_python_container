@@ -127,9 +127,23 @@ class SortableArray:
         self.quicksort(left_idx, pivot_position - 1)
         self.quicksort(pivot_position + 1, right_idx)
 
+    def quickselect(self, kth_lowest_position: int, left_idx: int, right_idx: int) -> int:
+        # base cases
+        if right_idx - left_idx <= 0:
+            return self.arr[left_idx]
+
+        pivot_position = self.partion(left_idx, right_idx)
+        if kth_lowest_position < pivot_position:
+            return self.quickselect(kth_lowest_position, left_idx, pivot_position - 1)
+        elif kth_lowest_position > pivot_position:
+            return self.quickselect(kth_lowest_position, pivot_position + 1, right_idx)
+        else:
+            return self.arr[pivot_position]
+
 
 sortable_arr = SortableArray([0, 5, 2, 1, 6, 3, 9])
-sortable_arr.quicksort(0, len(sortable_arr.arr) - 1)
-print(sortable_arr.arr)
+# sortable_arr.quicksort(0, len(sortable_arr.arr) - 1)
+# print(sortable_arr.arr)
+print(sortable_arr.quickselect(1, 0, len(sortable_arr.arr) - 1))
 
 # %%
