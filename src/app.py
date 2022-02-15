@@ -153,6 +153,7 @@ class Node:
     def __init__(self, data: str) -> None:
         self.data = data
         self.next_node: Union[Node, None] = None
+        self.previous_node: Union[Node, None] = None
 
 
 class LinkedList:
@@ -212,3 +213,45 @@ class LinkedList:
             return None
 
         current_node.next_node = current_node.next_node.next_node
+
+
+class DoubleLinkedList:
+    def __init__(self, first_node: Union[Node, None] = None, last_node: Union[Node, None] = None) -> None:
+        self.first_node = first_node
+        self.last_node = last_node
+
+    def insert_at_end(self, val: str) -> None:
+        new_node = Node(val)
+
+        if not self.first_node:
+            self.first_node = new_node
+            self.last_node = new_node
+        else:
+            new_node.previous_node = self.last_node
+            self.first_node.next_node = new_node
+            self.last_node = new_node
+
+    def remove_from_front(self) -> Union[Node, None]:
+        removed_node = self.first_node
+        if removed_node:
+            self.first_node = removed_node.next_node
+
+        return removed_node
+
+
+class Queque:
+    def __init__(self) -> None:
+        self.queque = DoubleLinkedList()
+
+    def enque(self, val: str) -> None:
+        self.queque.insert_at_end(val)
+
+    def deque(self) -> Union[str, None]:
+        if removed_node := self.queque.remove_from_front():
+            return removed_node.data
+        return None
+
+    def tail(self) -> Union[str, None]:
+        if last_node := self.queque.last_node:
+            return last_node.data
+        return None
