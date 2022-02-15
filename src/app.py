@@ -88,3 +88,48 @@ def insertion_sort(arr: list[int]) -> list[int]:
 print(insertion_sort([65, 55, 1, 45, 35, 25, 15, 10]))
 
 # %%
+
+
+class SortableArray:
+    def __init__(self, arr: list[int]) -> None:
+        self.arr = arr
+
+    def partion(self, left_pointer: int, right_pointer: int) -> int:
+        pivot_position = right_pointer
+        pivot = self.arr[pivot_position]
+        right_pointer -= 1
+
+        while True:
+            while self.arr[left_pointer] < pivot:
+                left_pointer += 1
+            while self.arr[right_pointer] > pivot:
+                right_pointer -= 1
+
+            if left_pointer >= right_pointer:
+                break
+            else:
+                self._swap(left_pointer, right_pointer)
+
+        # As a final step, we swap th lef pointer with the pivot itself
+        self._swap(left_pointer, pivot_position)
+
+        return left_pointer
+
+    def _swap(self, pointer_1: int, pointer_2: int) -> None:
+        self.arr[pointer_1], self.arr[pointer_2] = self.arr[pointer_2], self.arr[pointer_1]
+
+    def quicksort(self, left_idx: int, right_idx: int) -> None:
+        # base case
+        if right_idx - left_idx <= 0:
+            return None
+
+        pivot_position = self.partion(left_idx, right_idx)
+        self.quicksort(left_idx, pivot_position - 1)
+        self.quicksort(pivot_position + 1, right_idx)
+
+
+sortable_arr = SortableArray([0, 5, 2, 1, 6, 3, 9])
+sortable_arr.quicksort(0, len(sortable_arr.arr) - 1)
+print(sortable_arr.arr)
+
+# %%
