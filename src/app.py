@@ -147,3 +147,68 @@ sortable_arr = SortableArray([0, 5, 2, 1, 6, 3, 9])
 print(sortable_arr.quickselect(1, 0, len(sortable_arr.arr) - 1))
 
 # %%
+
+
+class Node:
+    def __init__(self, data: str) -> None:
+        self.data = data
+        self.next_node: Union[Node, None] = None
+
+
+class LinkedList:
+    def __init__(self, first_node: Node) -> None:
+        self.first_node = first_node
+
+    def read(self, idx: int) -> Union[str, None]:
+        current_node = self.first_node
+        current_idx = 0
+
+        while current_idx < idx and current_node:
+            current_node = current_node.next_node
+            current_idx += 1
+
+        if not current_node:
+            return None
+
+        return current_node.data
+
+    def index_of(self, val: str) -> Union[int, None]:
+        current_node = self.first_node
+        current_idx = 0
+
+        while current_node:
+            if current_node.data == val:
+                return current_idx
+
+            current_node = current_node.next_node
+            current_idx += 1
+
+        return None
+
+    def insert_at_index(self, idx: int, val: str) -> None:
+        current_node = self.first_node
+        current_idx = 0
+
+        while current_idx < idx and current_node:
+            current_node = current_node.next_node
+            current_idx += 1
+
+        if not current_node:
+            return None
+
+        new_node = Node(val)
+        new_node.next_node = current_node.next_node
+        current_node.next_node = new_node
+
+    def delete_at_index(self, idx: int) -> None:
+        current_node = self.first_node
+        current_idx = 0
+
+        while current_idx < idx - 1 and current_node:
+            current_node = current_node.next_node
+            current_idx += 1
+
+        if not current_node or not current_node.next_node:
+            return None
+
+        current_node.next_node = current_node.next_node.next_node
