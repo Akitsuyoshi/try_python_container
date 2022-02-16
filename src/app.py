@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional, Union
 
 # %%
 
@@ -255,3 +255,68 @@ class Queque:
         if last_node := self.queque.last_node:
             return last_node.data
         return None
+
+# %%
+
+
+class TreeNode:
+    def __init__(self, val: int, left: Optional['TreeNode'] = None, right: Optional['TreeNode'] = None) -> None:
+        self.value = val
+        self.left = left
+        self.right = right
+
+    def search(self, val: int, node: Optional['TreeNode']) -> Optional['TreeNode']:
+        # base case
+        if node is None or node.value == val:
+            return node
+        elif val < node.value:
+            return self.search(val, node.left)
+        else:
+            return self.search(val, node.right)
+
+    def insert(self, val: int, node: 'TreeNode') -> None:
+        if val < node.value:
+            if not node.left:
+                node.left = TreeNode(val)
+            else:
+                self.insert(val, node.left)
+        elif val > node.value:
+            if not node.right:
+                node.right = TreeNode(val)
+            else:
+                self.insert(val, node.right)
+
+    def delete(self, val: int, node: Optional['TreeNode']) -> Optional['TreeNode']:
+        # base case
+        if not node:
+            return None
+        elif val < node.value:
+            node.left = self.delete(val, node.left)
+            return node
+        elif val > node.value:
+            node.right = self.delete(val, node.right)
+            return node
+        else:
+            if not node.left:
+                return node.right
+            elif not node.right:
+                return node.left
+            else:
+                node.right = self._lift(node.right, node)
+                return node
+
+    def _lift(self, node: 'TreeNode', node_to_delete: 'TreeNode') -> Optional['TreeNode']:
+        if node.left:
+            node.left = self._lift(node.left, node_to_delete)
+            return node
+        else:
+            node_to_delete.value = node.value
+            return node.right
+
+
+node_1 = TreeNode(1)
+node_2 = TreeNode(10)
+root = TreeNode(5, node_1, node_2)
+
+
+# %%
