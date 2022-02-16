@@ -4,3 +4,4 @@ pandas
 matplotlib
 flake8
 black
+pre-commit

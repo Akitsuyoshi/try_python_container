@@ -312,3 +312,33 @@ root = TreeNode(5, node_1, node_2)
 
 
 # %%
+
+
+class Person:
+    def __init__(self, name: str, friends: list['Person']) -> None:
+        self.name = name
+        self.friends = friends
+        self.visited = False
+
+    def add_friend(self, friend: 'Person') -> None:
+        self.friends.append(friend)
+
+    def display_network(self) -> None:
+        to_reset = [self]
+        queque = [self]
+        self.visited = True
+
+        while len(queque) > 0:
+            current_vertex = queque.pop(0)
+            print(current_vertex.name)
+
+            for friend in current_vertex.friends:
+                if friend.visited:
+                    continue
+                to_reset.append(friend)
+                queque.append(friend)
+                friend.visited = True
+
+        # Reset all visited attributes of friends
+        for person in to_reset:
+            person.visited = False
