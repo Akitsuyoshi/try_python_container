@@ -32,7 +32,7 @@ def binary_search(arr: list[int], val: int) -> Union[int, None]:
         elif val > val_at_mid_point:
             lower_bound = mid_point + 1
 
-    return None
+        return None
 
 
 print(binary_search([3, 17, 22, 80, 220], 80))
@@ -58,11 +58,13 @@ def selection_sort(arr: list[int]) -> list[int]:
     for i in range(len(arr)):
         lowest_num_idx = i
         for j in range(i + 1, len(arr)):
-            if arr[j] < arr[lowest_num_idx]:
-                lowest_num_idx = j
+            if arr[j] >= arr[lowest_num_idx]:
+                continue
+            lowest_num_idx = j
 
-        if lowest_num_idx != i:
-            arr[i], arr[lowest_num_idx] = arr[lowest_num_idx], arr[i]
+        if lowest_num_idx == i:
+            continue
+        arr[i], arr[lowest_num_idx] = arr[lowest_num_idx], arr[i]
 
     return arr
 
@@ -158,16 +160,14 @@ class LinkedList:
 
     def read(self, idx: int) -> Union[str, None]:
         current_node = self.first_node
-        current_idx = 0
 
-        while current_idx < idx and current_node:
+        for _ in range(idx):
             current_node = current_node.next_node
-            current_idx += 1
-
-        if not current_node:
-            return None
-
-        return current_node.data
+            if not current_node:
+                break
+        else:
+            return current_node.data
+        return None
 
     def index_of(self, val: str) -> Union[int, None]:
         current_node = self.first_node
@@ -175,40 +175,36 @@ class LinkedList:
 
         while current_node:
             if current_node.data == val:
-                return current_idx
-
+                break
             current_node = current_node.next_node
             current_idx += 1
-
-        return None
+        else:
+            return None
+        return current_idx
 
     def insert_at_index(self, idx: int, val: str) -> None:
         current_node = self.first_node
-        current_idx = 0
 
-        while current_idx < idx and current_node:
+        for _ in range(idx):
             current_node = current_node.next_node
-            current_idx += 1
-
-        if not current_node:
-            return None
-
-        new_node = Node(val)
-        new_node.next_node = current_node.next_node
-        current_node.next_node = new_node
+            if not current_node:
+                break
+        else:
+            new_node = Node(val)
+            new_node.next_node = current_node.next_node
+            current_node.next_node = new_node
+        return None
 
     def delete_at_index(self, idx: int) -> None:
         current_node = self.first_node
-        current_idx = 0
 
-        while current_idx < idx - 1 and current_node:
+        for _ in range(idx - 1):
             current_node = current_node.next_node
-            current_idx += 1
-
-        if not current_node or not current_node.next_node:
-            return None
-
-        current_node.next_node = current_node.next_node.next_node
+            if not current_node or not current_node.next_node:
+                break
+        else:
+            current_node.next_node = current_node.next_node.next_node  # type: ignore
+        return None
 
 
 class DoubleLinkedList:
@@ -263,7 +259,7 @@ class TreeNode:
 
     def search(self, val: int, node: Optional['TreeNode']) -> Optional['TreeNode']:
         # base case
-        if node is None or node.value == val:
+        if not node or node.value == val:
             return node
         elif val < node.value:
             return self.search(val, node.left)
