@@ -40,13 +40,12 @@ print(binary_search([3, 17, 22, 80, 220], 80))
 
 
 def bubble_sort(arr: list[int]) -> list[int]:
-    unsorted_until_idx = len(arr) - 1
-
-    while unsorted_until_idx != 0:
+    for unsorted_until_idx in range(len(arr) - 1, 0, -1):
         for i in range(unsorted_until_idx):
-            if arr[i] > arr[i + 1]:
-                arr[i], arr[i + 1] = arr[i + 1], arr[i]
-        unsorted_until_idx -= 1
+            if arr[i] <= arr[i + 1]:
+                continue
+            arr[i], arr[i + 1] = arr[i + 1], arr[i]
+
     return arr
 
 
@@ -99,14 +98,11 @@ class SortableArray:
         pivot = self.arr[pivot_position]
         right_pointer -= 1
 
-        while True:
+        while left_pointer < right_pointer:
             while self.arr[left_pointer] < pivot:
                 left_pointer += 1
             while self.arr[right_pointer] > pivot:
                 right_pointer -= 1
-
-            if left_pointer >= right_pointer:
-                break
             else:
                 self._swap(left_pointer, right_pointer)
 
